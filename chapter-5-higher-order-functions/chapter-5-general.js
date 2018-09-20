@@ -58,3 +58,50 @@ function myFilter(array, test) {
 let numbers = [5, 25, 12, 8, 2];
 
 console.log(myFilter(numbers, number => number > 10));  //  [ 25, 12 ]
+
+// Mapping Arrays (logic of es6 .map()): transform an array by applying a function to all its elements and building a new array from the returned values.
+function myMap(array, transform) {
+  let mapped = [];
+  for(let element of array) {
+    mapped.push(transform(element));
+  }
+  return mapped;
+}
+
+let persons = [{name: "Hector", age: 26}, {name: "Andrew", age:  28}];
+let personNames = myMap(persons, person => person.name);
+console.log(personNames);  //  [ 'Hector', 'Andrew' ]
+
+// Reducing Arrays (logic of es6 .filter()): compute a single value from them. Parameters are the array, the combining function and start value.
+function reduce(array, combine, start) {
+  let current = start;
+  for(let element of array) {
+    current = combine(current, element);
+  }
+  return current;
+}
+
+console.log(reduce([1, 2, 3, 4], (a, b) => a + b, 0));
+
+// Composability
+// Higher-order functions shine when composing operations is needed.
+function average(array) {
+  return array.reduce((a, b) => a + b) / array.length;
+}
+
+// Recognizing Text
+function countBy(items, groupName) {
+  let counts = [];
+  for(let item in items) {
+    let name = groupName(item);
+    let known = counts.findIndex(c => c.name === name);
+    if(known == -1) {
+      counts.push({name, count: 1});
+    } else {
+      counts[known].count++;
+    }
+  }
+  return counts;
+}
+
+console.log(countBy([1, 2, 3, 4, 5], n => n > 4));
