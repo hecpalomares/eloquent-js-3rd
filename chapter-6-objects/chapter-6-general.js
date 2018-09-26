@@ -1,9 +1,10 @@
-// Encapsulation
+/* ENCAPSULATION */
 // Divide the program into smaller pieces, and make each piece responsible for managing its own state.
 // Properties part of the interface are called public. Properties part of the implementation are called price.
 // Separating interface from implemntation is a great idea.
 
-// Methods: properties that hold function values
+/* METHODS */
+// Properties that hold function values
 let rabbit = {};
 rabbit.speak = function (line) {
   console.log(`The rabbit says: ${line}`);
@@ -39,3 +40,54 @@ normalize.call({
   coords: [0, 2, 3],
   length: 5
 }); // → [0, 0.4, 0.6]
+
+/* PROTOTYPES */
+// Another object (linked) to fall as a fallback source of properties.
+let protoRabbit = {
+  speak(line) {
+    console.log(`The ${this.type} rabbit says '${line}'`);
+  }
+};
+
+let killerRabbit = Object.create(protoRabbit);
+killerRabbit.type = "killer";
+killerRabbit.speak("Yiaw"); // The killer rabbit says 'Yiaw'
+
+let cuteRabbit = Object.create(protoRabbit);
+killerRabbit.type = "cute";
+killerRabbit.speak("Pew pew!"); // The cute rabbit says 'Pew pew!'
+
+// The "proto" rabbit (object abstract) act as a container for all the properties shared by all rabbits (object instances)
+// Each individual rabbit (object instance) can contain properties that apply to only themselves
+
+/* CLASSES */
+// JS prototype system can be interpreted as the object-oriented concept called classes. 
+
+// Under the hood of a 'constructor' function
+function makeRabbit(type) {
+  let rabbit = Object.create(protoRabbit);
+  rabbit.type = type;
+  return rabbit;
+}
+
+let strangeRabbit = makeRabbit("strange");
+strangeRabbit.speak("Meow meow"); // The strange rabbit says 'Meow meow'
+
+// JS provides an easier way to define 'constructor' functions, by putting 'new' keyword in front of the function call. 
+// Pros: The right prototype is created, bound 'this' keyword to the function and returned at the end of the function
+function Rabbit(type) {
+  this.type = type;
+}
+
+// By default every constructor function gets a property named prototype that holds a plain, empty object
+Rabbit.prototype.speak = function(line) {
+  console.log(`The ${this.type} rabbit says '${line}'`);
+}
+
+let blueRabbit = new Rabbit('blue');
+blueRabbit.speak("Blu Blu");  // The blue rabbit says 'Blu Blu'
+
+// The actual prototype of the constructor is Function.prototype, since constructor are functions
+console.log(Object.getPrototypeOf(Rabbit) == Function.prototype);     // → true
+// The prototype of an instance created via the constructor is the constructor.prototype
+console.log(Object.getPrototypeOf(blueRabbit) == Rabbit.prototype);   // → true
