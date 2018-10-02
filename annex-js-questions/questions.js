@@ -66,3 +66,49 @@ pushAndPrintArray(arr, console.log);  // [ 'x', 'c', 'r', 'a', 'z' ]
   const myLuckyNumber = 14;
   console.log(myLuckyNumber * 2);
 }());
+
+/* Q6: null vs undefined in JavaScript */
+// undefined -> something hasn't been initialized
+// null -> something is currently unavailable
+(function () {
+  let a = { total: 3.5 };
+  let b = {};
+
+  console.log(a.total); // 3.5
+  console.log(b.total); // undefined
+
+  a.total = null;       
+  console.log(a.total); // null
+}());
+
+/* Q7: Closures functions */
+function createBase(baseNumber) {
+  return function(n) {
+    return baseNumber + n;
+  }
+}
+
+let addFive = createBase(5);
+let addSeven = createBase(7);
+
+console.log(addFive(10));   // 15
+console.log(addSeven(12));  // 19
+
+/* Q8: Types Values */
+(function () {
+  let stringValue = "Hello!";
+  let numberValue = 84;
+  let booleanValue = false;
+  let nullValue = null;
+  let objectValue = {};
+  let symbolValue = Symbol('rxsda');
+
+  console.log(typeof stringValue + " " + typeof numberValue + " " + typeof booleanValue + " " + typeof nullValue + " " + typeof objectValue + " " + typeof symbolValue);
+  // string number boolean object object symbol
+}());
+
+/* Q9: Event bubbling */
+// Event bubbling is when a event triggers at the deepest possible element, and triggers on parent elements in nesting order.//#endregion
+(function (event) {
+  // event.stopPropagation();
+}());
