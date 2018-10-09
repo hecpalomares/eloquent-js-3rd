@@ -173,60 +173,138 @@ console.log(addSeven(12)); // 19
 (function() {
 	let a = [1, 2, 3];
 	let b = [1, 2, 3];
-  let c = "1,2,3";
-  let d = [1, 2, 3, 4];
+	let c = "1,2,3";
+	let d = [1, 2, 3, 4];
 
-  console.log(a == c);  // true
-  console.log(b == c);  // true
-  console.log(a == b);  // false
+	console.log(a == c); // true
+	console.log(b == c); // true
+	console.log(a == b); // false
 
-  // Convert the objects into strings to be compared
-  let areTheyEqual = JSON.stringify(a) === JSON.stringify(b);     // true
-  let areTheyNotEqual = JSON.stringify(a) === JSON.stringify(d);  // false
-  console.log(areTheyEqual);
-  console.log(areTheyNotEqual);
+	// Convert the objects into strings to be compared
+	let areTheyEqual = JSON.stringify(a) === JSON.stringify(b); // true
+	let areTheyNotEqual = JSON.stringify(a) === JSON.stringify(d); // false
+	console.log(areTheyEqual);
+	console.log(areTheyNotEqual);
 })();
 
 /* Q14: Differences between ES5 and ES6? */
 // Arrow functions + string interpolation
 (function() {
-	const greetings = (name) => {
-    return `hello ${name}`;
-  }
+	const greetings = name => {
+		return `hello ${name}`;
+	};
 
-  const greetingsOneLine = name => `hello ${name}`;
+	const greetingsOneLine = name => `hello ${name}`;
 
-  console.log(greetingsOneLine('Hector'));
-  console.log(greetings('Andrew'));
+	console.log(greetingsOneLine("Hector"));
+	console.log(greetings("Andrew"));
 })();
 
 // Const
 (function() {
-  const NAMES = [];
-  NAMES.push('Hector');
-  console.log(NAMES.length === 1);  // true
+	const NAMES = [];
+	NAMES.push("Hector");
+	console.log(NAMES.length === 1); // true
 
-  NAMES.push('Mike');
-  console.log(NAMES);               // [ 'Hector', 'Mike' ]
-  // NAMES = ['Poe', 'Jung'];          // error! TypeError: Assignment to constant variable.
+	NAMES.push("Mike");
+	console.log(NAMES); // [ 'Hector', 'Mike' ]
+	// NAMES = ['Poe', 'Jung'];          // error! TypeError: Assignment to constant variable.
 })();
 
 // Block-scoped variables (let, const)
 (function() {
-  let a = 2;
-  if(a === 2) {
-    let a = 5;
-    console.log(a * 2); // 10
-  }
-  console.log(a * 2);   // 4
+	let a = 2;
+	if (a === 2) {
+		let a = 5;
+		console.log(a * 2); // 10
+	}
+	console.log(a * 2); // 4
 })();
 
 // Default Parameter Values, initialize functions with default values. A defualt value is used when an argument is omitted or undefined, null is a valid value.
 (function() {
-  function introduction(name = "Hector", age = 25, gender = "male") {
-    console.log(`Hi I'm ${name}!, a ${age} old ${gender}`);
-  }
+	function introduction(name = "Hector", age = 25, gender = "male") {
+		console.log(`Hi I'm ${name}!, a ${age} old ${gender}`);
+	}
 
-  introduction();                       // Hi I'm Hector!, a 25 old male
-  introduction('Nina', 32, "female");   // Hi I'm Nina!, a 32 old female
+	introduction(); // Hi I'm Hector!, a 25 old male
+	introduction("Nina", 32, "female"); // Hi I'm Nina!, a 32 old female
 })();
+
+// Class Definition ('class' keyword) and Inheritence ('extends' keyword)
+class Figure {
+	constructor(width, height) {
+		this.width = width;
+		this.height = height;
+	}
+
+	getArea() {
+		return this.height * this.width;
+	}
+}
+
+class Square extends Figure {
+	constructor(width, height) {
+		super(width, height);
+		this.sides = 4;
+	}
+
+	getSides() {
+		return this.sides;
+	}
+
+	isSquare() {
+		return this.width === this.height;
+	}
+}
+
+const rectangle = new Figure(5, 7);
+console.log(rectangle.getArea()); // 35
+
+const smallSquare = new Square(8, 8);
+console.log(smallSquare.getSides()); // 4
+console.log(smallSquare.isSquare()); // true
+
+const notSquare = new Square(6, 3);
+console.log(notSquare.getSides()); // 4
+console.log(notSquare.isSquare()); // false
+
+// for-of operator
+let scores = [17, 23, 41, 13, 28];
+
+for (const score of scores) {
+	if (score > 24) {
+		console.log(`${score} is a high score`);
+	} else {
+		console.log(`${score} is a low score`);
+	}
+}
+
+// spread operator
+let teamA = { Mike: "active", Lauren: "active", Hugo: "inactive" };
+let teamB = { Javier: "active", Alice: "inactive", Peter: "inactive" };
+
+let fullTeam = {...teamA, ...teamB};
+console.log(fullTeam);	// { Mike: 'active', Lauren: 'active', Hugo: 'inactive', Javier: 'active', Alice: 'inactive', Peter: 'inactive' };
+
+// Promises
+const isGreater = (a, b) => {
+	return new Promise ((resolve, reject) => {
+		if(a > b) {
+			resolve(true);
+		} else {
+			reject(false);
+		}
+	});
+}
+
+isGreater(1, 2).then(result => {
+	console.log("greater");
+}).catch(result => {
+	console.log("smaller");
+});
+
+// Module exporting & importing
+const myModule = { x: 1, y: () => { console.log('This is ES5') }}
+// export default myModule;
+// import myModule from './myModule';
