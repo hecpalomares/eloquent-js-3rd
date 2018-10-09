@@ -305,6 +305,61 @@ isGreater(1, 2).then(result => {
 });
 
 // Module exporting & importing
-const myModule = { x: 1, y: () => { console.log('This is ES5') }}
+// const myModule = { x: 1, y: () => { console.log('This is ES5') }}
 // export default myModule;
 // import myModule from './myModule';
+
+/*Q15: Difference between 'undefined' and 'not defined'?  */
+(function() {
+	let x;						// Declare x, not define its value
+	console.log(x);		// undefined
+	let y = 2;
+	console.log(y);													// declare y, define its value
+	let z;																	// A variable that is declared but not define and when we try to access it, It will result undefined.
+	console.log(typeof z === 'undefined'); 	// true
+	// console.log(xyz);										// A variable that neither declared nor defined when we try to reference such variable then It result not defined.
+})();
+
+/* Q16: Difference between anonymous and named functions? */
+let assignedFunction = function() {		// anonymous function assigned to a variable 'assignedFunction'
+	return 2 + 2;
+};
+console.log(2 + assignedFunction());	// 6
+
+let assignedFunctionTwo = function sumThreePlusThree() {	// named function (sumThreePlusThree) assigned to variable a'ssignedFunctionTwo' (better for debugging, can see the call stack on developer tools)
+	return 3 + 3;
+} 
+console.log(3 + assignedFunctionTwo());	// 9
+
+/* Q17: What is “closure” in javascript? */
+// A closure is a function defined inside another function; that has access (and saves its lexical scope) to the variables declared in it and the parent function scope.
+// Lexical Scoping: displayName() function has access to its parent function (init()).
+(function () {
+	function init() {
+		let name = "Hector";
+		function displayName() {
+			let lastName = "Palomares";
+			console.log(`${name} ${lastName}`);	// Hector Palomares
+		}
+		displayName();
+	}
+	init();
+})();
+
+// Closure: displayNumberDoubled() inner function is retuned from the other function. Mantains its reference to its lexical enviroment.
+function makeFunction(number) {
+	let numberDoubled = number * 2;
+	function displayNumberDoubled() {
+		console.log(numberDoubled);
+	}
+	return displayNumberDoubled;
+}
+
+let threeDoubled = makeFunction(3);
+let sevenDoubled = makeFunction(7);
+
+threeDoubled();	// 6
+sevenDoubled();	// 14
+
+// makeFunction is a function factory - it create different functions.
+// Both threeDoubled() and sevenDoubled() share function body definition, but store different lexical enviroments.
