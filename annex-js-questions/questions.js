@@ -284,25 +284,27 @@ for (const score of scores) {
 let teamA = { Mike: "active", Lauren: "active", Hugo: "inactive" };
 let teamB = { Javier: "active", Alice: "inactive", Peter: "inactive" };
 
-let fullTeam = {...teamA, ...teamB};
-console.log(fullTeam);	// { Mike: 'active', Lauren: 'active', Hugo: 'inactive', Javier: 'active', Alice: 'inactive', Peter: 'inactive' };
+let fullTeam = { ...teamA, ...teamB };
+console.log(fullTeam); // { Mike: 'active', Lauren: 'active', Hugo: 'inactive', Javier: 'active', Alice: 'inactive', Peter: 'inactive' };
 
 // Promises
 const isGreater = (a, b) => {
-	return new Promise ((resolve, reject) => {
-		if(a > b) {
+	return new Promise((resolve, reject) => {
+		if (a > b) {
 			resolve(true);
 		} else {
 			reject(false);
 		}
 	});
-}
+};
 
-isGreater(1, 2).then(result => {
-	console.log("greater");
-}).catch(result => {
-	console.log("smaller");
-});
+isGreater(1, 2)
+	.then(result => {
+		console.log("greater");
+	})
+	.catch(result => {
+		console.log("smaller");
+	});
 
 // Module exporting & importing
 // const myModule = { x: 1, y: () => { console.log('This is ES5') }}
@@ -311,35 +313,37 @@ isGreater(1, 2).then(result => {
 
 /*Q15: Difference between 'undefined' and 'not defined'?  */
 (function() {
-	let x;						// Declare x, not define its value
-	console.log(x);		// undefined
+	let x; // Declare x, not define its value
+	console.log(x); // undefined
 	let y = 2;
-	console.log(y);													// declare y, define its value
-	let z;																	// A variable that is declared but not define and when we try to access it, It will result undefined.
-	console.log(typeof z === 'undefined'); 	// true
+	console.log(y); // declare y, define its value
+	let z; // A variable that is declared but not define and when we try to access it, It will result undefined.
+	console.log(typeof z === "undefined"); // true
 	// console.log(xyz);										// A variable that neither declared nor defined when we try to reference such variable then It result not defined.
 })();
 
 /* Q16: Difference between anonymous and named functions? */
-let assignedFunction = function() {		// anonymous function assigned to a variable 'assignedFunction'
+let assignedFunction = function() {
+	// anonymous function assigned to a variable 'assignedFunction'
 	return 2 + 2;
 };
-console.log(2 + assignedFunction());	// 6
+console.log(2 + assignedFunction()); // 6
 
-let assignedFunctionTwo = function sumThreePlusThree() {	// named function (sumThreePlusThree) assigned to variable a'ssignedFunctionTwo' (better for debugging, can see the call stack on developer tools)
+let assignedFunctionTwo = function sumThreePlusThree() {
+	// named function (sumThreePlusThree) assigned to variable a'ssignedFunctionTwo' (better for debugging, can see the call stack on developer tools)
 	return 3 + 3;
-} 
-console.log(3 + assignedFunctionTwo());	// 9
+};
+console.log(3 + assignedFunctionTwo()); // 9
 
 /* Q17: What is “closure” in javascript? */
 // A closure is a function defined inside another function; that has access (and saves its lexical scope) to the variables declared in it and the parent function scope.
 // Lexical Scoping: displayName() function has access to its parent function (init()).
-(function () {
+(function() {
 	function init() {
 		let name = "Hector";
 		function displayName() {
 			let lastName = "Palomares";
-			console.log(`${name} ${lastName}`);	// Hector Palomares
+			console.log(`${name} ${lastName}`); // Hector Palomares
 		}
 		displayName();
 	}
@@ -358,8 +362,110 @@ function makeFunction(number) {
 let threeDoubled = makeFunction(3);
 let sevenDoubled = makeFunction(7);
 
-threeDoubled();	// 6
-sevenDoubled();	// 14
+threeDoubled(); // 6
+sevenDoubled(); // 14
 
 // makeFunction is a function factory - it create different functions.
 // Both threeDoubled() and sevenDoubled() share function body definition, but store different lexical enviroments.
+
+/* Q18: Create a private variable */
+// Create it as a local variable within a function, even with the function executed the variable cannot be accesed outside of the function.
+function privatePerson() {
+	let name = "Héctor";
+	let age = 15;
+	let skills = ["Programming", "Piano", "Trading"];
+
+	function showAgeIfAdult() {
+		return age >= 21 ? age : "N/A";
+	}
+
+	return (privateObject = {
+		name: name,
+		age: showAgeIfAdult(),
+		skills: skills
+	});
+}
+
+// console.log(name, age, skills);	// ReferenceError: name, age, skills is not defined
+let me = privatePerson();
+console.log(me); // { name: 'Héctor', age: 'N/A', skills: [ 'Programming', 'Piano', 'Trading' ] }
+
+/* Q19: Explain the Protortpe Design Pattern */
+// Relies on the JS prototypical inheritance.
+function Car(manufacturer, color) {
+	this.manufacturer = manufacturer;
+	this.color = color;
+	this.wheels = 4;
+}
+
+Car.prototype.go = function() {
+	console.log(`Moving my ${this.wheels} wheels.`);
+};
+
+Car.prototype.stop = function() {
+	console.log(`Stopping my ${this.wheels} wheels.`);
+};
+
+Car.prototype.repaint = function(newColor) {
+	console.log(`Painting my old ${this.color} into ${newColor}.`);
+	this.color = newColor;
+};
+
+Car.prototype.showColor = function(newColor) {
+	console.log(`My current color is: ${this.color}.`);
+};
+
+let sonic = new Car("Chevrolet", "Blue");
+sonic.go();
+sonic.stop();
+sonic.showColor();		// My current color is: Blue.
+sonic.repaint("Red");	// Painting my old Blue into Red.
+sonic.showColor();		// My current color is: Red.
+
+let sandero = new Car("Renault", "Black");
+sandero.go();
+sandero.stop();
+sandero.showColor();			// My current color is: Black.
+sandero.repaint("White");	// Painting my old Black into White.
+sandero.showColor();			// My current color is: White.
+
+/* Q20: What does the term "Transpiling" stand for? */
+// Combination of "transforming" + "compiling", transform newer code into older code equivalents. Examples Babel (ES6 to ES5), Traceur (ES6, ES7 to ES5).
+// Main purpose is to give support to older applications and browsers
+
+/* Q21: 'this' keyword  */
+// the object where 'this' refers change depending the execution context (how is called)
+// global 'this'
+function simpleGlobal() {
+	console.log('Simple function call');
+	console.log(this === global);	// true
+};
+
+simpleGlobal();								// -> true
+console.log(this === global);	// -> true
+
+// 'this' in a method of an object, refers to the parent object
+let myComputer = {
+	ram: 4096,
+	clock: 1075,
+	calculateOverclock: function() {
+		return (this.clock * 1.12).toFixed(2);
+	}
+};
+
+console.log("MyComputer Specs:", myComputer.calculateOverclock(), "overclocked.");
+
+// 'this' refering to new instance: when called with 'new' keyword, 'this' is bound to the new instance
+function Person(firstName, lastName) {
+	this.firstName = firstName;
+	this.lastName = lastName;
+
+	this.displayName = function() {
+		console.log(`Name: ${this.firstName} ${this.lastName}`);
+	}
+}
+
+let alice = new Person("Alice", "Saz");			// 'this' refers to alice object that is an instance of Person
+alice.displayName();	
+let bob = new Person("Roberto", "Perez");		// 'this' refers to bob object that is an instance of Person
+bob.displayName();
