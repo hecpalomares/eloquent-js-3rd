@@ -469,3 +469,74 @@ let alice = new Person("Alice", "Saz");			// 'this' refers to alice object that 
 alice.displayName();	
 let bob = new Person("Roberto", "Perez");		// 'this' refers to bob object that is an instance of Person
 bob.displayName();
+
+// call, apply: method that allows to invoke a function specifying the context (Explicit Binding)
+(function() {
+	function calculateDogYearsAge() {
+		console.log(`My age in dog years is ${this.age * 7}`);
+	}
+	
+	function skillsIKnow(l1, l2, l3) {
+		console.log(`I'm ${this.name} and I know the following languagues: ${l1}, ${l2}, ${l3}`);
+	}
+
+	const mattPerson = {
+		name: 'Matt',
+		age: 32
+	};
+
+	const languagues = ["Ruby", "Javascript", "Python"];
+
+	calculateDogYearsAge.call(me);			// Pass 'me' object to run as the context of the calculateDogYearsAge function
+	skillsIKnow.call(mattPerson, languagues[0], languagues[1], languagues[2]);	// Pass 'mattPerson' object, along with languagues parameters separated by commas to run as the context of the skillsIKnow function
+	skillsIKnow.apply(me, languagues);	// Pass 'me' object, along with languagues parameter (that is an array) to run as the context for the skillsIKnow function
+
+})();
+
+// bind: similar to 'call' function return a new function to be executed later in time
+(function() {
+	function dogIntro() {
+		console.log(`Woof woof I'm ${this.name} a ${this.race} dog.`);
+	}
+
+	function favoriteFoodsIntro(favFood1, favFood2, favFood3) {
+		console.log(`${this.name} favorite foods are ${favFood1}, ${favFood2}, ${favFood3}`);
+	}
+	
+	const nacho = {
+		name: 'Nacho',
+		age: 8,
+		race: 'Lab mix'
+	};
+
+	const thor = {
+		name: 'Thor',
+		age: 4,
+		race: 'Golden'
+	};
+
+	const favoriteFoods = ["Meat", "Chicken", "Avocados"];
+
+	const nachoIntro = dogIntro.bind(nacho);
+	const thorIntro = dogIntro.bind(thor);	
+	nachoIntro();	// Woof woof I'm Nacho a Lab mix dog.
+	thorIntro();	// Woof woof I'm Thor a Golden dog.
+
+	const nachoFavFood = favoriteFoodsIntro.bind(nacho, favoriteFoods[0], favoriteFoods[1], favoriteFoods[2]);	// Nacho favorite foods are Meat, Chicken, Avocados
+	nachoFavFood();
+
+	const thorFavFood = favoriteFoodsIntro.bind(thor, favoriteFoods[0], favoriteFoods[1], favoriteFoods[2]);		// Thor favorite foods are Meat, Chicken, Avocados
+	thorFavFood();
+})();
+
+/* Q24: Add method average to the Array Object. */
+// By modifying the Array.prototype, by adding an additional functions
+Array.prototype.average = function() {
+	let sum = this.reduce((prev, current) => { return prev + current; });
+	return sum / this.length;
+}
+
+let arrayX = [1, 2, 3, 4, 5];
+let arrayY = [5, 7, 1, 8, 9, 12];
+console.log(arrayX.average()); 	// => 3
+console.log(arrayY.average()); 	// => 7
