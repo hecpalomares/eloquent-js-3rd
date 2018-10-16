@@ -529,7 +529,7 @@ bob.displayName();
 	thorFavFood();
 })();
 
-/* Q24: Add method average to the Array Object. */
+/* Q22: Add method average to the Array Object. */
 // By modifying the Array.prototype, by adding an additional functions
 Array.prototype.average = function() {
 	let sum = this.reduce((prev, current) => { return prev + current; });
@@ -540,3 +540,52 @@ let arrayX = [1, 2, 3, 4, 5];
 let arrayY = [5, 7, 1, 8, 9, 12];
 console.log(arrayX.average()); 	// => 3
 console.log(arrayY.average()); 	// => 7
+
+/* Q23: What is Hoisting in JavaScript? */
+// Hoisting is when JS interpreter moves all variables and function declarations to the top of the current scope
+(function() {
+	console.log("Hoisted function returns", hoistedFoo());	// Hoisted Function returns 4
+
+	function hoistedFoo() {
+		console.log(a + b);	// NaN
+		var a = 3;
+		var b = 8;
+		console.log(a + b);	// 3 8
+		return 2 + 2;
+	}
+})();
+
+/* Q24: Summing floating point numbers */
+//  Floating point errors in internally representing certain numbers
+(function() {
+	console.log(0.1 + 0.2 === 0.3);	// false
+})();
+
+/* Q25: Revealing Module Pattern */
+// Purpose is to mantain encapsulation and reveal certain variables and methods returned in an object literal.
+let exposeModule = (function () {
+	let privateAge = 26;
+
+	let privateMethod = function() {
+		console.log("Inside a private method!");
+		privateAge++;
+	}
+
+	let methodToExpose = function() {
+		console.log("Method exposed");
+	}
+
+	let otherMethodToExposeCallingPrivate = function() {
+		methodToExpose();
+	}
+
+	return {
+		first: methodToExpose,
+		second: otherMethodToExposeCallingPrivate
+	}
+});
+
+exposeModule.first;
+exposeModule.second;
+exposeModule.privateMethod;			// Undefined
+exposeModule.methodToExpose;		// Undefined
