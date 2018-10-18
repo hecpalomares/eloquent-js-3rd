@@ -91,3 +91,44 @@ blueRabbit.speak("Blu Blu");  // The blue rabbit says 'Blu Blu'
 console.log(Object.getPrototypeOf(Rabbit) == Function.prototype);     // → true
 // The prototype of an instance created via the constructor is the constructor.prototype
 console.log(Object.getPrototypeOf(blueRabbit) == Rabbit.prototype);   // → true
+
+// Class Notation: the 'class' keyword starts a class declaration allowing to define a constructor and the methods in a single place. This is similar to the lines 78-88
+class Bunny {
+  constructor(type) {
+    this.type = type;
+  }
+  speak(line) {
+    console.log(`The ${this.type} rabbit says ${line}`);
+  }
+}
+
+let blackBunny = new Bunny("black");
+let funnyBunny = new Bunny("funny");
+
+blackBunny.speak('ahoy');   // The black rabbit says ahoy
+funnyBunny.speak('a joke'); // The funny rabbit says a joke
+
+// Overriding Prototype Properties
+Bunny.prototype.teeth = "small";
+console.log(blackBunny.teeth);  // small
+funnyBunny.teeth = "no teeth";
+console.log(funnyBunny.teeth);  // no teeth
+console.log(blackBunny.teeth, Bunny.prototype.teeth);  // small small
+
+/* Maps (noun): is a data structure that keys to values. */
+// Similar to an object, but without all the default methods inherited by the Object.prototype alongside the restrictions to only use strings as keys and interface methods set, get and has
+let ages = new Map();
+ages.set('Andrew', 28);
+ages.set('Tom', 40);
+ages.set('Alice', 55);
+
+console.log("Alice age is", ages.get('Alice'));             // Alice age is 55
+console.log("Do we know Mike's age?", ages.has('Mike'));    // Do we know Mike's age? false
+console.log(ages.has("toString"));                          // false
+
+// Polymorphism: work with values of different sahpes, as long as the interface (methods) support it
+Bunny.prototype.toString = function() {
+  return `a ${this.type} bunny`;
+};
+
+console.log(String(funnyBunny));  // a funny bunny
