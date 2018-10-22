@@ -203,3 +203,81 @@ let matrix = new Matrix(2, 2, (x, y) => `value ${x},${y}`);
 for (let {x, y, value} of matrix) {
   console.log(x, y, value);
 }
+
+// Getters, Setters, Statics
+// Getter: Properties that are accessed directly
+let varyingSize = {
+	get size() {
+		return Math.floor(Math.random() * 100);
+	}
+};
+
+console.log(varyingSize.size);	// random number between 0-100
+console.log(varyingSize.size);	// random number between 0-100
+
+class Temperature {
+	constructor(celsius) {
+		this.celsius = celsius;
+	}
+	get fahrenheit() {
+		return this.celsius * 1.8 + 32;
+	}
+	set fahrenheit(value) {
+		this.celsius = (value - 32) / 1.8;
+	}
+
+	static fromFahrenheit(value) {
+		return new Temperature((value - 32) / 1.8 );
+	}
+}
+
+let temp = new Temperature(23);
+console.log(temp.fahrenheit); 				// 73.4
+// Change fahrenheit temperature to 100, method setter line (225) triggers
+temp.fahrenheit = 100;
+// Internally returns the celsius 
+console.log(temp.celsius);						// 37.77
+// Static method are attached to the constructor, rather than the prototype. Wont hace access to the class instance but provide a way to create instances.
+let tempFahrenheit = Temperature.fromFahrenheit(125);
+console.log(tempFahrenheit.celsius);	// 51.66
+
+// Inheritance
+class Person {
+	constructor(name, age) {
+		this.name = name;
+		this.age = age;
+	}
+
+	introduction() {
+		return `Hello I'm ${this.name}, my name is ${this.age}`;
+	}
+}
+
+class Employee extends Person {
+	constructor(name, age, salary) {
+		super(name, age);
+		this.salary = salary;
+	}
+
+	getSalary() {
+		return `Earning $${this.salary.toFixed(2)}`;
+	}
+}
+
+class Kid extends Person {
+	constructor(name, age, toys) {
+		super(name, age);
+		this.toys = toys;
+	}
+
+	getToys() {
+		return this.toys;
+	}
+}
+
+let randomDude = new Person("Mr. Irrelevant", 99);
+let randomEmployee = new Employee("Mr. Peters", 25, 125000.00000);
+let randomKid = new Kid("Bobby", 8, ["Cars", "Legos", "Dolls"]);
+
+console.log(randomEmployee.getSalary());	// Earning $125000.00
+console.log(randomKid.getToys());					// [ 'Cars', 'Legos', 'Dolls' ]
