@@ -281,3 +281,12 @@ let randomKid = new Kid("Bobby", 8, ["Cars", "Legos", "Dolls"]);
 
 console.log(randomEmployee.getSalary());	// Earning $125000.00
 console.log(randomKid.getToys());					// [ 'Cars', 'Legos', 'Dolls' ]
+
+// Summary:
+// Objects: hold properties linked to values. They have prototypes (which are links to other objects with its own properties + values).
+// Constructors: functions that are used with 'new' keyword, that create a new object, binds its values and return it.
+// Getters, setters: can secretly call methods when reading or writing object properties. 
+// Static methods: methods stored on the class constructor, not on the prototype.
+// 'instanceof' operator given a object + constructor can tell if the object is an instance of that constructor.
+// Encapsulated: specify an interface to forcefully interact with the object, hide any detail (methods / variables) behind the interface.
+// Implement new classes as subclass of a existing class (parent class), this is called inheritiance.
