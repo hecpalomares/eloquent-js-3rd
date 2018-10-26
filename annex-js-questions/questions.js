@@ -585,7 +585,9 @@ let exposeModule = (function () {
 	}
 });
 
-exposeModule.first;
-exposeModule.second;
-exposeModule.privateMethod;			// Undefined
-exposeModule.methodToExpose;		// Undefined
+console.log(exposeModule());
+
+exposeModule().first;
+exposeModule().second;
+exposeModule().privateMethod;			// Undefined
+exposeModule().methodToExpose;		// Undefined
